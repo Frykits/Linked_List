@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class Node {
     int data;
     Node next;
@@ -15,15 +17,21 @@ class LinkedList {
         this.head = null;
     }
 
-    void insert(int data) {
+    void insert(int data, int position) {
         Node newNode = new Node(data);
-        if (head == null) {
+        if (position == 1) {
+            newNode.next = head;
             head = newNode;
         } else {
             Node current = head;
-            while (current.next != null) {
+            for (int i = 1; i < position - 1 && current != null; i++) {
                 current = current.next;
             }
+            if (current == null) {
+                System.out.println("Invalid position");
+                return;
+            }
+            newNode.next = current.next;
             current.next = newNode;
         }
     }
@@ -40,11 +48,22 @@ class LinkedList {
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         LinkedList list = new LinkedList();
-        list.insert(1);
-        list.insert(2);
-        list.insert(3);
-        list.insert(4);
+
+        System.out.println("Enter the number of elements to insert:");
+        int n = scanner.nextInt();
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter the value to insert:");
+            int value = scanner.nextInt();
+            System.out.println("Enter the position to insert (1-indexed):");
+            int position = scanner.nextInt();
+            list.insert(value, position);
+        }
+
+        System.out.println("Updated list:");
         list.display();
+
+        scanner.close();
     }
 }
